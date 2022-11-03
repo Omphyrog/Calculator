@@ -25,29 +25,24 @@ equalBtn.addEventListener("click", () => {
 clearBtn.addEventListener("click", () => {
   clear();
 });
-//button.textContent === "." && display.textContent.includes(".")
 
 numberBtns.forEach((button) => {
   button.addEventListener("click", () => {
-    if (button.textContent === "." && lastOperand.includes(".")) {
-      button.textContent === "";
-    } else if (button.textContent === "." && nextOperand.includes(".")) {
-      button.textContent === "";
-    }
-
     if (isOperatorPresent === false) {
-      lastOperand += getNumbers(button);
-      previousOp.textContent = lastOperand;
-
-      console.log(lastOperand);
+      if (lastOperand.includes(".") && button.textContent === ".") {
+        return;
+      } else {
+        lastOperand += getNumbers(button);
+        previousOp.textContent = lastOperand;
+      }
     } else if (isOperatorPresent === true) {
-      nextOperand += getNumbers(button);
-      currentOp.textContent = nextOperand;
-
-      console.log(nextOperand);
+      if (nextOperand.includes(".") && button.textContent === ".") {
+        return;
+      } else {
+        nextOperand += getNumbers(button);
+        currentOp.textContent = nextOperand;
+      }
     }
-
-    console.log(lastOperand + " " + nextOperand);
   });
 });
 
@@ -91,10 +86,6 @@ function getNumbers(number) {
   return numbers;
 }
 
-function displaySomething(operand, value) {
-  operand.textContent = value;
-}
-
 function operate() {
   let prevOperand = parseFloat(lastOperand);
   let currentOperand = parseFloat(nextOperand);
@@ -118,11 +109,6 @@ function operate() {
     total = prevOperand - currentOperand;
     console.log(total);
   }
-
-  console.log(prevOperand);
-  console.log(currentOperand);
-  console.log(total);
-  console.log(operator);
 
   previousOp.textContent = total;
   currentOp.textContent = "";

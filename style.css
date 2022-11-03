@@ -84,7 +84,6 @@ body {
   height: 140px;
   align-items: center;
   justify-content: center;
-  /* background: rgb(179, 179, 179); */
   background: linear-gradient(to bottom, #e4dede21 0%, #00000021 100%);
   color: white;
   font-size: 1.9vw;
