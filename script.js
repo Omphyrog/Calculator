@@ -3,12 +3,14 @@ const operatorBtns = document.querySelectorAll("[data-operator]");
 const display = document.querySelector(".display");
 const equalBtn = document.getElementById("equal");
 const allClearBtn = document.getElementById("all-clear");
+const clearBtn = document.getElementById("clear");
 const previousOp = document.querySelector(".previous-operand");
 const currentOp = document.querySelector(".current-operand");
 const operationSign = document.querySelector(".operation-sign");
 
 let lastOperand = "";
 let nextOperand = "";
+let newString = "";
 let operator = undefined;
 isOperatorPresent = false;
 
@@ -20,24 +22,28 @@ equalBtn.addEventListener("click", () => {
   operate();
 });
 
+clearBtn.addEventListener("click", () => {
+  clear();
+});
+//button.textContent === "." && display.textContent.includes(".")
+
 numberBtns.forEach((button) => {
   button.addEventListener("click", () => {
-    if (button.textContent === "." && display.textContent.includes(".")) {
-      return;
-    }
-    if (previousOp.length > 20) {
-      previousOp.textContent = "";
-    } else if (currentOp.textContent.length > 20) {
-      currentOp.textContent = "";
+    if (button.textContent === "." && lastOperand.includes(".")) {
+      button.textContent === "";
+    } else if (button.textContent === "." && nextOperand.includes(".")) {
+      button.textContent === "";
     }
 
     if (isOperatorPresent === false) {
       lastOperand += getNumbers(button);
       previousOp.textContent = lastOperand;
+
       console.log(lastOperand);
     } else if (isOperatorPresent === true) {
       nextOperand += getNumbers(button);
       currentOp.textContent = nextOperand;
+
       console.log(nextOperand);
     }
 
@@ -70,9 +76,23 @@ function allClear() {
   operationSign.textContent = "";
 }
 
+function clear() {
+  if (isOperatorPresent === false) {
+    lastOperand = lastOperand.slice(0, -1);
+    previousOp.textContent = lastOperand;
+  } else {
+    nextOperand = nextOperand.slice(0, -1);
+    currentOp.textContent = nextOperand;
+  }
+}
+
 function getNumbers(number) {
   let numbers = number.textContent;
   return numbers;
+}
+
+function displaySomething(operand, value) {
+  operand.textContent = value;
 }
 
 function operate() {
@@ -84,6 +104,7 @@ function operate() {
   if (lastOperand === "" || nextOperand === "") {
     return;
   }
+
   if (operator === "+") {
     total = prevOperand + currentOperand;
     console.log(total);
@@ -102,6 +123,7 @@ function operate() {
   console.log(currentOperand);
   console.log(total);
   console.log(operator);
+
   previousOp.textContent = total;
   currentOp.textContent = "";
 
