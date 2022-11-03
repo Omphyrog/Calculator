@@ -102,7 +102,7 @@ function operate() {
   } else if (operator === "*") {
     total = prevOperand * currentOperand;
     console.log(total);
-  } else if (operator === "/") {
+  } else if (operator === "÷") {
     total = prevOperand / currentOperand;
     console.log(total);
   } else if (operator === "-") {
