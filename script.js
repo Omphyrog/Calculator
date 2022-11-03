@@ -3,6 +3,9 @@ const operatorBtns = document.querySelectorAll("[data-operator]");
 const display = document.querySelector(".display");
 const equalBtn = document.getElementById("equal");
 const allClearBtn = document.getElementById("all-clear");
+const previousOp = document.querySelector(".previous-operand");
+const currentOp = document.querySelector(".current-operand");
+const operationSign = document.querySelector(".operation-sign");
 
 let lastOperand = "";
 let nextOperand = "";
@@ -19,22 +22,22 @@ equalBtn.addEventListener("click", () => {
 
 numberBtns.forEach((button) => {
   button.addEventListener("click", () => {
-    // if (display.textContent === "0") {
-    //   display.textContent = button.textContent;
-    // } else {
-    //   display.textContent += button.textContent;
-    // }
-
     if (button.textContent === "." && display.textContent.includes(".")) {
       return;
     }
+    if (previousOp.length > 20) {
+      previousOp.textContent = "";
+    } else if (currentOp.textContent.length > 20) {
+      currentOp.textContent = "";
+    }
+
     if (isOperatorPresent === false) {
       lastOperand += getNumbers(button);
-      display.textContent = lastOperand;
+      previousOp.textContent = lastOperand;
       console.log(lastOperand);
     } else if (isOperatorPresent === true) {
       nextOperand += getNumbers(button);
-      display.textContent = nextOperand;
+      currentOp.textContent = nextOperand;
       console.log(nextOperand);
     }
 
@@ -44,25 +47,27 @@ numberBtns.forEach((button) => {
 
 operatorBtns.forEach((button) => {
   button.addEventListener("click", () => {
-    // const op = document.createElement("div");
-    // op.textContent = button.textContent;
-    // display.appendChild(op);
-
+    if (lastOperand === "" && nextOperand === "") {
+      return;
+    }
     if (isOperatorPresent === false) {
       isOperatorPresent = true;
     } else if (isOperatorPresent === true && operator !== undefined) {
       operate();
     }
+    operationSign.textContent = button.textContent;
     operator = button.textContent;
   });
 });
 
 function allClear() {
-  display.textContent = 0;
+  previousOp.textContent = 0;
+  currentOp.textContent = "";
   lastOperand = "";
   nextOperand = "";
   operator = undefined;
   isOperatorPresent = false;
+  operationSign.textContent = "";
 }
 
 function getNumbers(number) {
@@ -97,11 +102,13 @@ function operate() {
   console.log(currentOperand);
   console.log(total);
   console.log(operator);
-  display.textContent = total;
+  previousOp.textContent = total;
+  currentOp.textContent = "";
 
   lastOperand = total;
   operator = undefined;
   nextOperand = "";
+  operationSign.textContent = "";
 }
 
 allClear();
